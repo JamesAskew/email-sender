@@ -2,12 +2,12 @@ const nodemailer = require("nodemailer");
 
 exports.handler = function (event, context, callback) {
   let transporter = nodemailer.createTransport({
-    host: $HOST,
+    host: process.env.HOST,
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: $USERNAME, // generated ethereal user
-      pass: $PASSWORD, // generated ethereal password
+      user: process.env.USERNAME, // generated ethereal user
+      pass: process.env.PASSWORD, // generated ethereal password
     },
   });
 
