@@ -32,6 +32,9 @@ exports.handler = async (event) => {
                       Message: <br />
                       ${jsonPayload.message}`;
 
+  let responseStatusCode = 200;
+  let responseBody = "";
+
   // send mail with defined transport object
   transporter.sendMail(
     {
@@ -43,15 +46,15 @@ exports.handler = async (event) => {
     },
     (err, info) => {
       if (err) {
-        return {
-          statusCode: 500,
-          body: `There was a problem sending this message: ${err.message}`,
-        };
+        responseStatusCode = 500;
+        responseBody = `There was a problem sending this message: ${err.message}`;
       }
-      return {
-        statusCode: 200,
-        body: `Message sent. Message Id: ${info.messageId}`,
-      };
+      responseBody = `Message sent. Message Id: ${info.messageId}`;
     }
   );
+
+  return {
+    statusCode: responseStatusCode,
+    body: responseBody,
+  };
 };
