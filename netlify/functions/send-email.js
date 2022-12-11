@@ -1,9 +1,10 @@
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
-  console.log("Event: ", event);
+  //   console.log("Event: ", event);
 
   const jsonPayload = JSON.parse(event.body);
+  console.info("JSON Payload", jsonPayload);
 
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
