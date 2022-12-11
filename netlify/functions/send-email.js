@@ -1,6 +1,10 @@
 const nodemailer = require("nodemailer");
 
-exports.handler = async () => {
+exports.handler = async (event) => {
+  console.log("Event: ", event);
+
+  const jsonPayload = JSON.parse(event.body);
+
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: 587,
@@ -13,17 +17,31 @@ exports.handler = async () => {
 
   const receipient = "jamesaskew@outlook.com";
 
+  const textBody = `"Sender: ${jsonPayload.sender} \r\n
+                       Phone No: ${jsonPayload.phoneNumber} \r\n
+                       Service: ${jsonPayload.service} \r\n
+                       Subject: ${jsonPayload.subject} \r\n
+                       Message: \r\n
+                       ${jsonPayload.message}"`;
+
+  const htmlBody = `Sender: ${jsonPayload.sender} <br /><br />
+                      Phone No: ${jsonPayload.phoneNumber} <br /><br />
+                      Service: ${jsonPayload.service} <br /><br />
+                      Subject: ${jsonPayload.subject} <br /><br />
+                      Message: <br />
+                      ${jsonPayload.message}`;
+
   // send mail with defined transport object
   transporter.sendMail({
-    from: '"Graham Fitt Surveyors" <info@grahamfittsurveyors.co.uk>', // sender address
-    to: receipient, // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
+    from: `'"GFS ${jsonPayload.form}" <info@grahamfittsurveyors.co.uk>'`, // sender address
+    to: receipient,
+    subject: `Message received from GFS ${jsonPayload.form}`,
+    text: textBody,
+    html: htmlBody,
   });
 
   return {
     statusCode: 200,
-    body: `Message sent to: ${receipient}`,
+    body: `The following message: ${htmlBody} was sent to: ${receipient}`,
   };
 };
