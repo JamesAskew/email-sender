@@ -32,13 +32,23 @@ exports.handler = async (event) => {
                       ${jsonPayload.message}`;
 
   // send mail with defined transport object
-  transporter.sendMail({
-    from: `'"GFS ${jsonPayload.form}" <info@grahamfittsurveyors.co.uk>'`, // sender address
-    to: receipient,
-    subject: `Message received from GFS ${jsonPayload.form}`,
-    text: textBody,
-    html: htmlBody,
-  });
+  transporter.sendMail(
+    {
+      from: `'"GFS ${jsonPayload.form} Form" <info@grahamfittsurveyors.co.uk>'`, // sender address
+      to: receipient,
+      subject: `Message received from GFS ${jsonPayload.form}`,
+      text: textBody,
+      html: htmlBody,
+    },
+    (err, info) => {
+      if (err) {
+        console.error(
+          `There was a problem sending this message: ${err.message}`
+        );
+      }
+      console.log("Message sent: %s", info.messageId);
+    }
+  );
 
   return {
     statusCode: 200,
