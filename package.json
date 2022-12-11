@@ -12,5 +12,8 @@
     "@astrojs/preact": "^1.0.2",
     "@astrojs/sitemap": "^1.0.0",
     "astro": "^1.0.6"
+  },
+  "dependencies": {
+    "nodemailer": "^6.8.0"
   }
 }
