@@ -1,18 +1,13 @@
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
-  //   console.log("Event: ", event);
-
-  const jsonPayload = JSON.parse(event.body);
-  console.info("JSON Payload", jsonPayload);
-
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: process.env.SMTP_USERNAME, // generated ethereal user
-      pass: process.env.SMTP_PASSWORD, // generated ethereal password
+      user: process.env.SMTP_USERNAME,
+      pass: process.env.SMTP_PASSWORD,
     },
   });
 
@@ -32,18 +27,19 @@ exports.handler = async (event) => {
                       Message: <br />
                       ${jsonPayload.message}`;
 
+  const mailOptions = {
+    from: '"GFS Website" <info@grahamfittsurveyors.co.uk>',
+    to: receipient,
+    subject: `Message received from GFS ${jsonPayload.form} Form`,
+    text: textBody,
+    html: htmlBody,
+  };
+
   let responseStatusCode = 200;
   let responseBody = "";
 
-  // send mail with defined transport object
   await transporter
-    .sendMail({
-      from: '"GFS Website" <info@grahamfittsurveyors.co.uk>', // sender address
-      to: receipient,
-      subject: "Message received from GFS",
-      text: textBody,
-      html: htmlBody,
-    })
+    .sendMail(mailOptions)
     .then((info) => {
       responseBody = `Message sent. Message Id: ${info.messageId}`;
     })
