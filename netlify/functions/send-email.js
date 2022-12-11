@@ -13,7 +13,7 @@ exports.handler = function (event, context, callback) {
 
   // send mail with defined transport object
   let info = transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>', // sender address
+    from: '"Graham Fitt Surveyors" <info@grahamfittsurveyors.co.uk>', // sender address
     to: "jamesaskew@outlook.com", // list of receivers
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
