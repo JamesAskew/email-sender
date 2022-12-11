@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 
+HEADERS["Access-Control-Allow-Origin"] = "*";
+
 exports.handler = async (event) => {
   const jsonPayload = JSON.parse(event.body);
 
