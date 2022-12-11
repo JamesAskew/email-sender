@@ -15,14 +15,14 @@ exports.handler = async (event) => {
 
   const receipient = "jamesaskew@outlook.com";
 
-  const textBody = `"Sender: ${jsonPayload.sender} \r\n
+  const textBody = `"Sender: ${jsonPayload.sender} - ${jsonPayload.email} \r\n
                        Phone No: ${jsonPayload.phoneNumber} \r\n
                        Service: ${jsonPayload.service} \r\n
                        Subject: ${jsonPayload.subject} \r\n
                        Message: \r\n
                        ${jsonPayload.message}"`;
 
-  const htmlBody = `Sender: ${jsonPayload.sender} <br /><br />
+  const htmlBody = `Sender: ${jsonPayload.sender} - ${jsonPayload.email}<br /><br />
                       Phone No: ${jsonPayload.phoneNumber} <br /><br />
                       Service: ${jsonPayload.service} <br /><br />
                       Subject: ${jsonPayload.subject} <br /><br />
