@@ -20,5 +20,8 @@ exports.handler = function (event, context, callback) {
     html: "<b>Hello world?</b>", // html body
   });
 
-  console.log("Message sent: %s", info.messageId);
+  return {
+    statusCode: 200,
+    body: `Message sent: ${info.messageId}`,
+  };
 };
