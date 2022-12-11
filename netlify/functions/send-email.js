@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-exports.handler = function (event, context, callback) {
+exports.handler = async () => {
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: 587,
@@ -11,10 +11,12 @@ exports.handler = function (event, context, callback) {
     },
   });
 
+  const receipient = "jamesaskew@outlook.com";
+
   // send mail with defined transport object
-  let info = transporter.sendMail({
+  transporter.sendMail({
     from: '"Graham Fitt Surveyors" <info@grahamfittsurveyors.co.uk>', // sender address
-    to: "jamesaskew@outlook.com", // list of receivers
+    to: receipient, // list of receivers
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
     html: "<b>Hello world?</b>", // html body
@@ -22,6 +24,6 @@ exports.handler = function (event, context, callback) {
 
   return {
     statusCode: 200,
-    body: `Message sent: ${info.messageId}`,
+    body: `Message sent to: ${receipient}`,
   };
 };
