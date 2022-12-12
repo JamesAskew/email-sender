@@ -69,6 +69,7 @@ exports.handler = async (event) => {
       "Access-Control-Allow-Headers": "*",
       "Access-Control-Allow-Credentials": "true",
       "Access-Control-Allow-Methods": "POST",
+      "Access-Control-Allow-Headers": "Content-Type",
     },
   };
 };
