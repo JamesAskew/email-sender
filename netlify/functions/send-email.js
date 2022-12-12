@@ -1,6 +1,15 @@
+let HEADERS = {
+  "Access-Control-Allow-Headers":
+    "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin",
+  "Content-Type": "application/json", //optional
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Max-Age": "8640",
+};
+
 const nodemailer = require("nodemailer");
 
 HEADERS["Access-Control-Allow-Origin"] = "*";
+HEADERS["Vary"] = "Origin";
 
 exports.handler = async (event) => {
   const jsonPayload = JSON.parse(event.body);
@@ -55,5 +64,6 @@ exports.handler = async (event) => {
   return {
     statusCode: responseStatusCode,
     body: responseBody,
+    HEADERS,
   };
 };
