@@ -64,6 +64,8 @@ exports.handler = async (event) => {
   return {
     statusCode: responseStatusCode,
     body: responseBody,
-    HEADERS,
+    headers: {
+      "access-control-allow-origin": "*",
+    },
   };
 };
