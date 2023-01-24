@@ -59,6 +59,7 @@ function formatSubject(jsonPayload) {
 
 exports.handler = async (event) => {
   const jsonPayload = JSON.parse(event.body);
+  console.log("jsonPayload: ", jsonPayload);
 
   if (jsonPayload.key != EMAIL_KEY) {
     return {
