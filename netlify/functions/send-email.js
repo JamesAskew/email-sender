@@ -85,7 +85,7 @@ exports.handler = async (event) => {
   const formattedMessage = formatMessage(jsonPayload);
 
   const mailOptions = {
-    from: `"${jsonPayload.email}" <${jsonPayload.email}>`,
+    from: '"GFS Website" <info@grahamfittsurveyors.co.uk>',
     to: receipient,
     subject: formattedMessage.subject,
     text: formattedMessage.textBody,
