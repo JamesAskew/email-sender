@@ -37,13 +37,13 @@ function formatMessage(jsonPayload) {
 }
 
 function formatContactEmail(jsonPayload, newlineStyle) {
-  return `"Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
+  return `Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
 Message: ${newlineStyle}
 ${jsonPayload.message}"`;
 }
 
 function formatQuoteMessage(message) {
-  return `"Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
+  return `Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
   Phone No: ${jsonPayload.phoneNumber} ${newlineStyle}
   Service: ${jsonPayload.service} ${newlineStyle}
   Subject: ${jsonPayload.subject} ${newlineStyle}
