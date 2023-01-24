@@ -11,8 +11,65 @@ const nodemailer = require("nodemailer");
 HEADERS["Access-Control-Allow-Origin"] = "*";
 HEADERS["Vary"] = "Origin";
 
+const EMAIL_KEY = `${process.env.KEY}`;
+
+function formatMessage(jsonPayload) {
+  const newLine = "\r\n";
+  const lineBreak = "<br /><br />";
+
+  const textBody =
+    jsonPayload.form == "Contact"
+      ? formatContactEmail(jsonPayload, newLine)
+      : formatQuoteMessage(jsonPayload, newLine);
+  const htmlBody =
+    jsonPayload.form == "Contact"
+      ? formatContactEmail(jsonPayload, lineBreak)
+      : formatQuoteMessage(jsonPayload, lineBreak);
+  const subject = formatSubject(jsonPayload);
+
+  var formattedMessage = {
+    textBody: textBody,
+    htmlBody: htmlBody,
+    subject: subject,
+  };
+
+  return formattedMessage;
+}
+
+function formatContactEmail(jsonPayload, newlineStyle) {
+  return `"Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
+Message: ${newlineStyle}
+${jsonPayload.message}"`;
+}
+
+function formatQuoteMessage(message) {
+  return `"Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
+  Phone No: ${jsonPayload.phoneNumber} ${newlineStyle}
+  Service: ${jsonPayload.service} ${newlineStyle}
+  Subject: ${jsonPayload.subject} ${newlineStyle}
+  Message: ${newlineStyle}
+  ${jsonPayload.message}"`;
+}
+
+function formatSubject(jsonPayload) {
+  return jsonPayload.form == "Contact"
+    ? "Message received from GFS Contact Form"
+    : `${jsonPayload.subject}`;
+}
+
 exports.handler = async (event) => {
   const jsonPayload = JSON.parse(event.body);
+
+  if (jsonPayload.key != EMAIL_KEY) {
+    return {
+      statusCode: 403,
+      body: "Please provide a valid API key",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    };
+  }
 
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -25,27 +82,15 @@ exports.handler = async (event) => {
   });
 
   const receipient = "jamesaskew@outlook.com";
-
-  const textBody = `"Sender: ${jsonPayload.sender} - ${jsonPayload.email} \r\n
-                       Phone No: ${jsonPayload.phoneNumber} \r\n
-                       Service: ${jsonPayload.service} \r\n
-                       Subject: ${jsonPayload.subject} \r\n
-                       Message: \r\n
-                       ${jsonPayload.message}"`;
-
-  const htmlBody = `Sender: ${jsonPayload.sender} - ${jsonPayload.email}<br /><br />
-                      Phone No: ${jsonPayload.phoneNumber} <br /><br />
-                      Service: ${jsonPayload.service} <br /><br />
-                      Subject: ${jsonPayload.subject} <br /><br />
-                      Message: <br />
-                      ${jsonPayload.message}`;
+  const formattedMessage = formatMessage(jsonPayload);
 
   const mailOptions = {
     from: '"GFS Website" <info@grahamfittsurveyors.co.uk>',
+    from: `"${jsonPayload.email}" <${jsonPayload.EMAIL_KEY}>`,
     to: receipient,
-    subject: `Message received from GFS ${jsonPayload.form} Form`,
-    text: textBody,
-    html: htmlBody,
+    subject: formattedMessage.subject,
+    text: formattedMessage.textBody,
+    html: formattedMessage.htmlBody,
   };
 
   let responseStatusCode = 200;
