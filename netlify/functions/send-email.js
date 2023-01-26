@@ -42,7 +42,7 @@ Message: ${newlineStyle}
 ${jsonPayload.message}"`;
 }
 
-function formatQuoteMessage(message) {
+function formatQuoteMessage(jsonPayload, newlineStyle) {
   return `Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
   Phone No: ${jsonPayload.phoneNumber} ${newlineStyle}
   Service: ${jsonPayload.service} ${newlineStyle}
