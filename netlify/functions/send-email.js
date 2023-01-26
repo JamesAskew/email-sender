@@ -46,15 +46,12 @@ function formatQuoteMessage(jsonPayload, newlineStyle) {
   return `Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
   Phone No: ${jsonPayload.phoneNumber} ${newlineStyle}
   Service: ${jsonPayload.service} ${newlineStyle}
-  Subject: ${jsonPayload.subject} ${newlineStyle}
   Message: ${newlineStyle}
   ${jsonPayload.message}"`;
 }
 
 function formatSubject(jsonPayload) {
-  return jsonPayload.form == "Contact"
-    ? "Message received from GFS Contact Form"
-    : `${jsonPayload.subject}`;
+  return `Message received from GFS ${jsonPayload.form} Form`;
 }
 
 exports.handler = async (event) => {
