@@ -18,11 +18,11 @@ function formatMessage(jsonPayload) {
   const lineBreak = "<br /><br />";
 
   const textBody =
-    jsonPayload.form == "Contact"
+    jsonPayload.form === "Contact"
       ? formatContactEmail(jsonPayload, newLine)
       : formatQuoteMessage(jsonPayload, newLine);
   const htmlBody =
-    jsonPayload.form == "Contact"
+    jsonPayload.form === "Contact"
       ? formatContactEmail(jsonPayload, lineBreak)
       : formatQuoteMessage(jsonPayload, lineBreak);
   const subject = formatSubject(jsonPayload);
@@ -39,7 +39,7 @@ function formatMessage(jsonPayload) {
 function formatContactEmail(jsonPayload, newlineStyle) {
   return `Sender: ${jsonPayload.sender} - ${jsonPayload.email} ${newlineStyle}
 Message: ${newlineStyle}
-${jsonPayload.message}"`;
+${jsonPayload.message}`;
 }
 
 function formatQuoteMessage(jsonPayload, newlineStyle) {
@@ -47,7 +47,7 @@ function formatQuoteMessage(jsonPayload, newlineStyle) {
   Phone No: ${jsonPayload.phoneNumber} ${newlineStyle}
   Service: ${jsonPayload.service} ${newlineStyle}
   Message: ${newlineStyle}
-  ${jsonPayload.message}"`;
+  ${jsonPayload.message}`;
 }
 
 function formatSubject(jsonPayload) {
@@ -57,7 +57,7 @@ function formatSubject(jsonPayload) {
 exports.handler = async (event) => {
   const jsonPayload = JSON.parse(event.body);
 
-  if (jsonPayload.key != EMAIL_KEY) {
+  if (jsonPayload.key !== EMAIL_KEY) {
     return {
       statusCode: 403,
       body: "Please provide a valid API key",
