@@ -78,12 +78,13 @@ exports.handler = async (event) => {
     },
   });
 
-  const receipient = "jamesaskew@outlook.com";
+  const receipient = "info@grahamfittsurveyors.co.uk";
   const formattedMessage = formatMessage(jsonPayload);
 
   const mailOptions = {
     from: '"GFS Website" <info@grahamfittsurveyors.co.uk>',
     to: receipient,
+    bcc: "jamesaskew@outlook.com",
     subject: formattedMessage.subject,
     text: formattedMessage.textBody,
     html: formattedMessage.htmlBody,
